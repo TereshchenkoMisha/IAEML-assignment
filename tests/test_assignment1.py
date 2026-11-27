@@ -14,7 +14,7 @@ class DynamicsTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.key = jax.random.PRNGKey(0)
-        cls.p, cls.initial = RobotaxiEnv.init_params(cls.key, path_length=30)
+        cls.p, cls.initial = RobotaxiEnv.init_params(cls.key, path_length=30, allow_reverse=False)
 
     def open_state(self):
         s = self.initial

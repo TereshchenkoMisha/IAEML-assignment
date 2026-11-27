@@ -38,12 +38,16 @@ def main():
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--demo', action='store_true', help='deterministic path follower')
     parser.add_argument('--controls-demo', action='store_true', help='scripted acceleration, coast, brake and turn')
+    parser.add_argument('--reverse-demo', action='store_true', help='scripted forward, braking, reverse turn and forward again')
+    parser.add_argument('--forward-only', action='store_true', help='reproduce the original forward-only model')
     parser.add_argument('--headless', action='store_true')
     parser.add_argument('--record', type=Path, help='MP4 output; ffmpeg is needed only for recording')
     parser.add_argument('--summary', type=Path, help='write measured episode statistics as JSON')
     args = parser.parse_args()
     if args.steps < 1:
         parser.error('--steps must be positive')
+    if args.reverse_demo and args.forward_only:
+        parser.error('--reverse-demo requires reverse motion')
     if args.headless:
         os.environ.setdefault('SDL_VIDEODRIVER', 'dummy')
         os.environ.setdefault('SDL_AUDIODRIVER', 'dummy')
@@ -67,7 +71,8 @@ def main():
                               color=(20, 20, 20), **kwargs)
 
     key = jax.random.PRNGKey(args.seed)
-    params, initial = RobotaxiEnv.init_params(key, map_id=args.map, max_steps=args.steps)
+    params, initial = RobotaxiEnv.init_params(key, map_id=args.map, max_steps=args.steps,
+                                             allow_reverse=not args.forward_only)
     frontend = CarFrontend(RobotaxiEnv, params, initial)
     policy = jax.jit(lambda s: demo_action(s, params))
     writer = None
@@ -89,6 +94,8 @@ def main():
         ], stdin=subprocess.PIPE)
     total_reward = 0.0
     peak_speed = 0.0
+    minimum_speed = 0.0
+    reverse_steps = 0
     max_steering = 0.0
     final_info = {}
     done = False
@@ -98,7 +105,13 @@ def main():
             events = pygame.event.get()
             if any(e.type == pygame.QUIT for e in events):
                 break
-            if args.controls_demo:
+            if args.reverse_demo:
+                t = step / params.fps
+                command = ([1., 0.] if t < 1 else [0., 0.] if t < 1.6 else
+                           [-.45, 0.] if t < 3 else [-.45, .7] if t < 4 else
+                           [1., 0.] if t < 5 else [0., 0.] if t < 6 else [-.3, 0.])
+                action = jnp.array(command)
+            elif args.controls_demo:
                 t = step / params.fps
                 # All phases use the original map and obstacle motion.
                 command = ([1., 0.] if t < 1 else [0., 0.] if t < 2 else
@@ -111,6 +124,8 @@ def main():
                 step_key, frontend.state, action, params)
             total_reward += float(reward)
             peak_speed = max(peak_speed, float(frontend.state.speed))
+            minimum_speed = min(minimum_speed, float(frontend.state.speed))
+            reverse_steps += int(float(frontend.state.speed) < -1e-5)
             max_steering = max(max_steering, abs(float(frontend.state.steering)))
             frontend.info = {k: final_info[k] for k in (
                 'time', 'speed', 'steering', 'distance_to_path', 'success', 'collision', 'truncated')}
@@ -136,6 +151,8 @@ def main():
     summary = dict(map_id=args.map, seed=args.seed, steps=step + 1,
                    simulated_seconds=(step + 1) / params.fps,
                    return_=total_reward, peak_speed=peak_speed,
+                   minimum_speed=minimum_speed, reverse_steps=reverse_steps,
+                   reverse_enabled=params.allow_reverse,
                    max_abs_steering=max_steering, video_frames=frames,
                    goal_distance=float(jnp.linalg.norm(frontend.state.goal_pos - frontend.state.agent_pos)),
                    success=bool(final_info.get('success', False)),

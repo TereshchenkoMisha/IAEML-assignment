@@ -1,0 +1,16 @@
+{
+  "environments": 8,
+  "decisions_per_environment": 32,
+  "action_repeat": 6,
+  "repetitions": 5,
+  "vmap": {
+    "median_seconds": 0.07116308299737284,
+    "decisions_per_second": 3597.3708447883137
+  },
+  "lax_map": {
+    "median_seconds": 0.0035492919996613637,
+    "decisions_per_second": 72127.06084042249
+  },
+  "outputs_agree": true,
+  "speedup": 20.04993756618573
+}

@@ -1,0 +1,27 @@
+{
+  "seed": 1,
+  "train_maps": [
+    0,
+    1
+  ],
+  "num_envs": 16,
+  "rollout_steps": 128,
+  "updates": 1000,
+  "epochs": 4,
+  "minibatch_size": 256,
+  "hidden": 128,
+  "history": 4,
+  "action_repeat": 6,
+  "max_steps": 1800,
+  "bank_size": 256,
+  "gamma": 0.995,
+  "gae_lambda": 0.95,
+  "clip": 0.2,
+  "learning_rate": 0.0003,
+  "entropy_coef": 0.005,
+  "value_coef": 0.5,
+  "max_grad_norm": 0.5,
+  "target_kl": 0.03,
+  "navigation": "clearance",
+  "strict_splits": true
+}

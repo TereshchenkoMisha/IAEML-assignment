@@ -1,0 +1,29 @@
+{
+  "python": "3.12.15",
+  "platform": "macOS-26.5-arm64-arm-64bit",
+  "devices": [
+    "TFRT_CPU_0"
+  ],
+  "packages": {
+    "jax": "0.8.0",
+    "jaxlib": "0.8.0",
+    "equinox": "0.13.2",
+    "optax": "0.2.6",
+    "numpy": "2.3.4"
+  },
+  "source_hashes": {
+    "assignment2.py": "4094f8165cfa53c6ac26349644954e69da15f68306f6eab1049b5cdb753bd5e2",
+    "rl/tasks.py": "ed92457060a2972e4ec49d6cf282a3066e3849feee22ad7c280063a9d1178e02",
+    "rl/benchmark.py": "530275b823647419927270076aa8dcfdf9c5ef9c79ff7f446cd9a28d35524fa7",
+    "rl/diagnostics.py": "fefefb0a6d193db7ab88dea226189c22b8342ef0d77bf4e7ba75d5be9c345f1d",
+    "rl/protocol.py": "ff0239920b5142051321e7c280d6d198e79bc2a0fbb51e6c0cdf82f37e1ab6c3",
+    "rl/select_checkpoint.py": "d1b5958d0ff7e00f56de5e8dab00b593b701d4de4b33837534f17a3f2263c105",
+    "rl/__init__.py": "5d7ff982a03b069519a824e8419f9935d3ddc750e182256dc948734694aaeacf",
+    "rl/rollout.py": "d4cc8e4397a326300f16c3bf2f895cf58ebfe05acd95d954f77705ad4ff6a3ce",
+    "rl/navigation.py": "2d31605a0a0da28f5ae516333904656413516d66d9fd4dd85ee54d6b881edb87",
+    "rl/plot_results.py": "987c3d47290740b5174c75c1faebb428f66aab6f07fa57109c69b123fd62d6c1",
+    "rl/ppo.py": "c04848427fc0adb6013551807ed38f1619222ce7adb296d137d9791398c412d8",
+    "rl/plot_diagnostics.py": "c07b2acdbdf13fd96287ee605db1e8bb67d5426845c2d207f4bef9830b2e2219",
+    "env/robotaxi.py": "05391d084cec96dde288030195eab93c331adb85a6f2c1f22408635a0d583918"
+  }
+}

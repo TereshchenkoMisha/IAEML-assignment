@@ -1,7 +1,8 @@
 """Assignment 1: bicycle dynamics on the unmodified teacher's BaseEnv maps.
 
 World units are metres, time is seconds. Actions are [acceleration, steering]
-normalised to [-1, 1]. Negative acceleration brakes; reverse is not modelled.
+normalised to [-1, 1]. Signed speed permits forward and reverse motion. An
+opposite longitudinal command brakes to zero before accelerating the other way.
 """
 from functools import partial
 
@@ -23,6 +24,8 @@ class RobotaxiParams(BaseEnvParams):
     linear_drag: float = 0.08
     quadratic_drag: float = 0.04
     substeps: int = 4
+    allow_reverse: bool = True
+    max_reverse_speed: float = 1.5
 
 
 class RobotaxiState(BaseEnvState):
@@ -64,9 +67,10 @@ class RobotaxiEnv(BaseEnv):
         params = RobotaxiParams(**vars(base_params), **dynamics)
         positive = (params.wheelbase, params.max_speed, params.max_acceleration,
                     params.max_braking, params.max_steering, params.steering_rate,
-                    params.perception_radius)
+                    params.perception_radius, params.max_reverse_speed)
         if (min(positive) <= 0 or not 0 < params.max_steering < jnp.pi / 2
                 or not isinstance(params.substeps, int) or params.substeps < 1
+                or not isinstance(params.allow_reverse, bool)
                 or min(params.rolling_deceleration, params.linear_drag,
                        params.quadratic_drag) < 0):
             raise ValueError("Invalid vehicle parameters")
@@ -114,8 +118,10 @@ class RobotaxiEnv(BaseEnv):
             s.agent_pos, s.agent_forward_dir, obstacles, p)
         # Sensor slots have fixed angles relative to heading, so lengths are ego-centric.
         goal = (s.goal_pos - s.agent_pos) / jnp.linalg.norm(jnp.asarray(p.map_height_width))
+        speed_scale = (jnp.where(s.speed < 0, p.max_reverse_speed, p.max_speed)
+                       if p.allow_reverse else p.max_speed)
         vector = jnp.concatenate([
-            jnp.array([s.speed / p.max_speed, s.steering / p.max_steering]),
+            jnp.array([s.speed / speed_scale, s.steering / p.max_steering]),
             body_coordinates(goal, s.agent_forward_dir),
             body_coordinates(offset, s.agent_forward_dir) / p.perception_radius,
             body_coordinates(direction, s.agent_forward_dir),
@@ -145,10 +151,26 @@ class RobotaxiEnv(BaseEnv):
                 target = action[1] * p.max_steering
                 steer = s.steering + jnp.clip(target - s.steering,
                                              -p.steering_rate * dt, p.steering_rate * dt)
-                drive = jnp.where(action[0] >= 0, p.max_acceleration, p.max_braking) * action[0]
-                resistance = (p.rolling_deceleration + p.linear_drag * s.speed
-                              + p.quadratic_drag * s.speed ** 2)
-                speed = jnp.clip(s.speed + (drive - resistance) * dt, 0, p.max_speed)
+                if p.allow_reverse:
+                    # Integrate magnitude in the current direction. Braking and
+                    # passive resistance cannot numerically overshoot zero. Once
+                    # stopped, a held command can engage the opposite direction
+                    # on the next substep, using propulsion rather than braking.
+                    direction = jnp.where(s.speed != 0, jnp.sign(s.speed), jnp.sign(action[0]))
+                    opposing = s.speed * action[0] < 0
+                    drive = jnp.where(opposing, p.max_braking, p.max_acceleration) * action[0]
+                    magnitude = jnp.abs(s.speed)
+                    resistance = (p.rolling_deceleration + p.linear_drag * magnitude
+                                  + p.quadratic_drag * magnitude ** 2)
+                    limit = jnp.where(direction < 0, p.max_reverse_speed, p.max_speed)
+                    magnitude = jnp.clip(magnitude + (direction * drive - resistance) * dt, 0, limit)
+                    speed = direction * magnitude
+                else:
+                    # Preserve the exact forward-only dynamics of old experiments.
+                    drive = jnp.where(action[0] >= 0, p.max_acceleration, p.max_braking) * action[0]
+                    resistance = (p.rolling_deceleration + p.linear_drag * s.speed
+                                  + p.quadratic_drag * s.speed ** 2)
+                    speed = jnp.clip(s.speed + (drive - resistance) * dt, 0, p.max_speed)
                 mean_speed = (s.speed + speed) / 2
                 yaw = mean_speed * jnp.tan(steer) / p.wheelbase
                 middle_heading = s.heading + yaw * dt / 2

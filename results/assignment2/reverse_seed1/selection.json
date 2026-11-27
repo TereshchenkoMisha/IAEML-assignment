@@ -1,0 +1,43 @@
+{
+  "rule": "0.5 * original success + 0.5 * varied success; tie: lower collision, then first input",
+  "evaluation_seed": 20000,
+  "candidates": [
+    {
+      "evaluation": "results/assignment2/reverse_seed1/validation_0200.json",
+      "checkpoint": "results/assignment2/reverse_seed1/train/checkpoint_0200.npz",
+      "score": 0.3671875,
+      "collision_score": 0.078125
+    },
+    {
+      "evaluation": "results/assignment2/reverse_seed1/validation_0400.json",
+      "checkpoint": "results/assignment2/reverse_seed1/train/checkpoint_0400.npz",
+      "score": 0.625,
+      "collision_score": 0.375
+    },
+    {
+      "evaluation": "results/assignment2/reverse_seed1/validation_0600.json",
+      "checkpoint": "results/assignment2/reverse_seed1/train/checkpoint_0600.npz",
+      "score": 0.9140625,
+      "collision_score": 0.0859375
+    },
+    {
+      "evaluation": "results/assignment2/reverse_seed1/validation_0800.json",
+      "checkpoint": "results/assignment2/reverse_seed1/train/checkpoint_0800.npz",
+      "score": 0.640625,
+      "collision_score": 0.359375
+    },
+    {
+      "evaluation": "results/assignment2/reverse_seed1/validation_1000.json",
+      "checkpoint": "results/assignment2/reverse_seed1/train/checkpoint_1000.npz",
+      "score": 0.9140625,
+      "collision_score": 0.078125
+    }
+  ],
+  "selected": {
+    "evaluation": "results/assignment2/reverse_seed1/validation_1000.json",
+    "checkpoint": "results/assignment2/reverse_seed1/train/checkpoint_1000.npz",
+    "score": 0.9140625,
+    "collision_score": 0.078125
+  },
+  "copied_checkpoint": "results/assignment2/reverse_seed1/best_validation.npz"
+}

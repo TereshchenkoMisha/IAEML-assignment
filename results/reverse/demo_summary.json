@@ -1,0 +1,17 @@
+{
+  "map_id": 1,
+  "seed": 0,
+  "steps": 420,
+  "simulated_seconds": 7.0,
+  "return_": -2.77029517352139,
+  "peak_speed": 1.7649927139282227,
+  "minimum_speed": -1.1618187427520752,
+  "reverse_steps": 129,
+  "reverse_enabled": true,
+  "max_abs_steering": 0.45499998331069946,
+  "video_frames": 106,
+  "goal_distance": 13.76396369934082,
+  "success": false,
+  "collision": false,
+  "truncated": true
+}

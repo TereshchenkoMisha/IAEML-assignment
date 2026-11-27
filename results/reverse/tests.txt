@@ -1,0 +1,38 @@
+test_acceleration_braking_and_drag (test_assignment1.DynamicsTests.test_acceleration_braking_and_drag) ... ok
+test_action_clipping_and_nonfinite_inputs (test_assignment1.DynamicsTests.test_action_clipping_and_nonfinite_inputs) ... ok
+test_bounds_progress_reward_and_speed_limit (test_assignment1.DynamicsTests.test_bounds_progress_reward_and_speed_limit) ... ok
+test_collision_checked_after_motion_and_terminal_is_absorbing (test_assignment1.DynamicsTests.test_collision_checked_after_motion_and_terminal_is_absorbing) ... ok
+test_duplicate_path_and_jit_vmap (test_assignment1.DynamicsTests.test_duplicate_path_and_jit_vmap) ... ok
+test_goal_does_not_override_collision (test_assignment1.DynamicsTests.test_goal_does_not_override_collision) ... ok
+test_goal_timeout_and_reset (test_assignment1.DynamicsTests.test_goal_timeout_and_reset) ... ok
+test_inherits_and_preserves_maps (test_assignment1.DynamicsTests.test_inherits_and_preserves_maps) ... ok
+test_one_second_consistent_across_frame_rates (test_assignment1.DynamicsTests.test_one_second_consistent_across_frame_rates) ... ok
+test_steering_and_rate_limit (test_assignment1.DynamicsTests.test_steering_and_rate_limit) ... ok
+test_banks_reproducible_safe_diverse_and_rollouts_finite (test_assignment2.PPOTests.test_banks_reproducible_safe_diverse_and_rollouts_finite) ... ok
+test_checkpoint_selection_rejects_held_out_results (test_assignment2.PPOTests.test_checkpoint_selection_rejects_held_out_results) ... ok
+test_gae_bootstraps_timeout_but_not_terminal_and_does_not_leak_after_reset (test_assignment2.PPOTests.test_gae_bootstraps_timeout_but_not_terminal_and_does_not_leak_after_reset) ... ok
+test_history_resets_without_previous_episode (test_assignment2.PPOTests.test_history_resets_without_previous_episode) ... ok
+test_idle_metrics_exclude_absorbing_states (test_assignment2.PPOTests.test_idle_metrics_exclude_absorbing_states) ... ok
+test_tanh_density_and_saturated_actions_have_finite_gradients (test_assignment2.PPOTests.test_tanh_density_and_saturated_actions_have_finite_gradients) ... ok
+test_update_changes_parameters_and_checkpoint_roundtrip (test_assignment2.PPOTests.test_update_changes_parameters_and_checkpoint_roundtrip) ... ok
+test_all_original_routes_are_collision_free_and_avoid_top_pinch (test_navigation.NavigationTests.test_all_original_routes_are_collision_free_and_avoid_top_pinch) ... ok
+test_reference_survives_replanning_and_does_not_override_motion (test_navigation.NavigationTests.test_reference_survives_replanning_and_does_not_override_motion) ... ok
+test_reflected_banks_have_safe_reference_routes (test_navigation.NavigationTests.test_reflected_banks_have_safe_reference_routes) ... ok
+test_checkpoint_selection_refuses_test_even_on_training_maps (test_protocol.ProtocolTests.test_checkpoint_selection_refuses_test_even_on_training_maps) ... ok
+test_legacy_warm_start_cannot_contaminate_strict_experiment (test_protocol.ProtocolTests.test_legacy_warm_start_cannot_contaminate_strict_experiment) ... ok
+test_spatial_pools_remain_disjoint_under_all_reflections (test_protocol.ProtocolTests.test_spatial_pools_remain_disjoint_under_all_reflections) ... ok
+test_strict_banks_exclude_originals_and_use_their_spatial_partition (test_protocol.ProtocolTests.test_strict_banks_exclude_originals_and_use_their_spatial_partition) ... ok
+test_collision_behind_vehicle_and_reset (test_reverse.ReverseTests.test_collision_behind_vehicle_and_reset) ... ok
+test_direction_changes_brake_to_zero_before_reversing (test_reverse.ReverseTests.test_direction_changes_brake_to_zero_before_reversing) ... ok
+test_friction_opposes_reverse_motion_and_never_drives_through_zero (test_reverse.ReverseTests.test_friction_opposes_reverse_motion_and_never_drives_through_zero) ... ok
+test_jit_vmap_handles_signed_actions (test_reverse.ReverseTests.test_jit_vmap_handles_signed_actions) ... ok
+test_legacy_checkpoint_and_task_helpers_remain_forward_only (test_reverse.ReverseTests.test_legacy_checkpoint_and_task_helpers_remain_forward_only) ... ok
+test_reverse_moves_back_without_flipping_vehicle_heading (test_reverse.ReverseTests.test_reverse_moves_back_without_flipping_vehicle_heading) ... ok
+test_reverse_steering_has_opposite_yaw_and_stationary_car_does_not_turn (test_reverse.ReverseTests.test_reverse_steering_has_opposite_yaw_and_stationary_car_does_not_turn) ... ok
+test_reverse_uses_propulsion_not_braking_acceleration (test_reverse.ReverseTests.test_reverse_uses_propulsion_not_braking_acceleration) ... ok
+test_speed_limits_and_signed_observation (test_reverse.ReverseTests.test_speed_limits_and_signed_observation) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 13.819s
+
+OK

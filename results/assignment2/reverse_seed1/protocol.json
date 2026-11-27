@@ -1,0 +1,93 @@
+{
+  "train_maps": [
+    0,
+    1
+  ],
+  "validation_maps": [
+    0,
+    1
+  ],
+  "geometry_test_maps": [
+    2
+  ],
+  "train_seed": 1,
+  "validation_seed": 20000,
+  "test_seed": 30000,
+  "strict_splits": true,
+  "allow_reverse": true,
+  "start_partition": "reflection-orbit hash v1: 60/20/20 buckets",
+  "heading_and_phase": "Independent random draws with different seeds; headings sampled on reset",
+  "original_scenario": "Reported separately; the original start is not an unseen-start test",
+  "selection_rule": "0.5 * original success + 0.5 * varied success; tie: lower collision",
+  "validation_episodes_per_map": 32,
+  "test_episodes_per_map": 64,
+  "spatial_audit": [
+    {
+      "map_id": 0,
+      "pools": {
+        "train": {
+          "base_candidates": 67,
+          "including_reflections": 130
+        },
+        "validation": {
+          "base_candidates": 20,
+          "including_reflections": 31
+        },
+        "test": {
+          "base_candidates": 34,
+          "including_reflections": 56
+        }
+      },
+      "overlapping_positions": {
+        "train/validation": 0,
+        "train/test": 0,
+        "validation/test": 0
+      }
+    },
+    {
+      "map_id": 1,
+      "pools": {
+        "train": {
+          "base_candidates": 44,
+          "including_reflections": 114
+        },
+        "validation": {
+          "base_candidates": 14,
+          "including_reflections": 26
+        },
+        "test": {
+          "base_candidates": 21,
+          "including_reflections": 50
+        }
+      },
+      "overlapping_positions": {
+        "train/validation": 0,
+        "train/test": 0,
+        "validation/test": 0
+      }
+    },
+    {
+      "map_id": 2,
+      "pools": {
+        "train": {
+          "base_candidates": 41,
+          "including_reflections": 100
+        },
+        "validation": {
+          "base_candidates": 8,
+          "including_reflections": 14
+        },
+        "test": {
+          "base_candidates": 17,
+          "including_reflections": 50
+        }
+      },
+      "overlapping_positions": {
+        "train/validation": 0,
+        "train/test": 0,
+        "validation/test": 0
+      }
+    }
+  ],
+  "note": "Map 2 has been diagnosed before, but is excluded from training and checkpoint selection; new test episodes are reserved."
+}
